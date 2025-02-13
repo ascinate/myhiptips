@@ -37,36 +37,36 @@ class AdminController extends Controller
 
     public function dashboard()
     {
-        // Fetch total tips
-        $sum = DB::table('tips_master')->sum('tip_amount');
+         // Fetch total tips
+    $sum = DB::table('tips_master')->sum('tip_amount');
 
-        // Fetch admin commission
-        $adminCommission = DB::table('tips_master')->sum('admin_commission');
+    // Fetch admin commission
+    $adminCommission = DB::table('tips_master')->sum('admin_commission');
 
-        // Fetch total transactions count
-        $totalTransactions = DB::table('tips_master')->count();
+    // Fetch total transactions count
+    $totalTransactions = DB::table('tips_master')->count();
 
-        // Fetch average tip amount
-        $averageTip = $totalTransactions > 0 ? $sum / $totalTransactions : 0;
+    // Fetch average tip amount
+    $averageTip = $totalTransactions > 0 ? $sum / $totalTransactions : 0;
 
-        // Fetch total properties count
-        $totalProperties = DB::table('hotel_master')->count();
+    // Fetch total properties count
+    $totalProperties = DB::table('hotel_master')->count();
 
-        // Fetch total employees count
-        $totalEmployees = DB::table('employee_master')->count();
+    // Fetch total employees count
+    $totalEmployees = DB::table('employee_master')->count();
 
-        // Fetch recent tips
-        $tips = DB::table('tips_master')->get();
+    // Fetch recent tips
+    $tips = DB::table('tips_master')->get();
 
-        return view('admin.dashboard', compact(
-            'sum',
-            'adminCommission',
-            'totalTransactions',
-            'averageTip',
-            'totalProperties',
-            'totalEmployees',
-            'tips'
-        ));
+    return view('admin.dashboard', compact(
+        'sum',
+        'adminCommission',
+        'totalTransactions',
+        'averageTip',
+        'totalProperties',
+        'totalEmployees',
+        'tips'
+    ));
     }
 
     public function logout()

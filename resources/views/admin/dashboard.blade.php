@@ -14,96 +14,96 @@
               </div>
 
                 <div class="row">
-              <div class="col-md-3 stretch-card grid-margin">
-                <div class="card bg-gradient-danger card-img-holder text-white">
-                  <div class="card-body">
-                    <img src="{{ asset('assets/images/dashboard/circle.svg')}}" class="card-img-absolute" alt="circle-image" />
-                    <h4 class="font-weight-normal mb-3">Total Tips <i class="mdi mdi-chart-line mdi-24px float-right"></i>
-                    </h4>
-                    <h2 class="mb-5">{{ $totalTips }}</h2>
-                      <h2 class="mb-5"><h2>
-                      <h2 class="mb-5">
-                           
-                    </h2>
+                  <div class="col-md-3 stretch-card grid-margin">
+                    <div class="card bg-gradient-danger card-img-holder text-white">
+                      <div class="card-body">
+                        <img src="{{ asset('assets/images/dashboard/circle.svg')}}" class="card-img-absolute" alt="circle-image" />
+                        <h4 class="font-weight-normal mb-3">Total Tips <i class="mdi mdi-chart-line mdi-24px float-right"></i>
+                        </h4>
+                        <h2 class="mb-5">${{ number_format($sum, 2) }}</h2>
+                          <h2 class="mb-5"><h2>
+                          <h2 class="mb-5">
+                               
+                        </h2>
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
 
-              <div class="col-md-3 stretch-card grid-margin">
-                <div class="card bg-gradient-success card-img-holder text-white">
-                  <div class="card-body">
-                    <img src="{{ asset('assets/images/dashboard/circle.svg')}}" class="card-img-absolute" alt="circle-image" />
-                    <h4 class="font-weight-normal mb-3">Admin Commission <i class="mdi mdi-dollar mdi-24px float-right"></i>
-                    </h4>
-                    <h2 class="mb-5">{{ $totalCommission }}</h2>
-                      <h2 class="mb-5"><h2>
-                      <h2 class="mb-5">
-                           
-                    </h2>
+                  <div class="col-md-3 stretch-card grid-margin">
+                    <div class="card bg-gradient-success card-img-holder text-white">
+                      <div class="card-body">
+                        <img src="{{ asset('assets/images/dashboard/circle.svg')}}" class="card-img-absolute" alt="circle-image" />
+                        <h4 class="font-weight-normal mb-3">Admin Commission <i class="mdi mdi-dollar mdi-24px float-right"></i>
+                        </h4>
+                        <h2 class="mb-5">${{ number_format($adminCommission, 2) }}</h2>
+                          <h2 class="mb-5"><h2>
+                          <h2 class="mb-5">
+                               
+                        </h2>
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
 
-              <div class="col-md-3 stretch-card grid-margin">
-                <div class="card bg-gradient-success card-img-holder text-white">
-                  <div class="card-body">
-                    <img src="{{ asset('assets/images/dashboard/circle.svg')}} class="card-img-absolute" alt="circle-image" />
-                    <h4 class="font-weight-normal mb-3">Total Transactions<i class="mdi mdi-dollar mdi-24px float-right"></i>
-                    </h4>
-                    <h2 class="mb-5">{{ $totalTransactions }}</h2>
-                      <h2 class="mb-5"><h2>
-                      <h2 class="mb-5">
-                           
-                    </h2>
+                  <div class="col-md-3 stretch-card grid-margin">
+                    <div class="card bg-gradient-success card-img-holder text-white">
+                      <div class="card-body">
+                        <img src="{{ asset('assets/images/dashboard/circle.svg')}}" class="card-img-absolute" alt="circle-image" />
+                        <h4 class="font-weight-normal mb-3">Total Transactions<i class="mdi mdi-dollar mdi-24px float-right"></i>
+                        </h4>
+                        <h2 class="mb-5">{{ $totalTransactions }}</h2>
+                          <h2 class="mb-5"><h2>
+                          <h2 class="mb-5">
+                               
+                        </h2>
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
 
-              <div class="col-md-3 stretch-card grid-margin">
-                <div class="card bg-gradient-success card-img-holder text-white">
-                  <div class="card-body">
-                    <img src="{{ asset('assets/images/dashboard/circle.svg')}}" class="card-img-absolute" alt="circle-image" />
-                    <h4 class="font-weight-normal mb-3">Average Tip Amount <i class="mdi mdi-dollar mdi-24px float-right"></i>
-                    </h4>
-                    <h2 class="mb-5">{{ $avgTip }}</h2>
-                      <h2 class="mb-5"><h2>
-                      <h2 class="mb-5">
-                           
-                    </h2>
+                  <div class="col-md-3 stretch-card grid-margin">
+                    <div class="card bg-gradient-success card-img-holder text-white">
+                      <div class="card-body">
+                        <img src="{{ asset('assets/images/dashboard/circle.svg')}}" class="card-img-absolute" alt="circle-image" />
+                        <h4 class="font-weight-normal mb-3">Average Tip Amount <i class="mdi mdi-dollar mdi-24px float-right"></i>
+                        </h4>
+                        <h2 class="mb-5">${{ number_format($averageTip, 2) }}</h2>
+                          <h2 class="mb-5"><h2>
+                          <h2 class="mb-5">
+                               
+                        </h2>
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
 
-              <div class="col-md-3 stretch-card grid-margin">
-                <div class="card bg-gradient-info card-img-holder text-white">
-                  <div class="card-body">
-                    <img src="{{ asset('assets/images/dashboard/circle.svg')}}" class="card-img-absolute" alt="circle-image" />
-                    <h4 class="font-weight-normal mb-3">Total Properties <i class="mdi mdi-bookmark-outline mdi-24px float-right"></i>
-                    </h4>
-                    <h2 class="mb-5">{{ $totalProperties }}</h2>
-                      <h2 class="mb-5"><h2>
-                      <h2 class="mb-5">
-                           
-                    </h2>
+                  <div class="col-md-3 stretch-card grid-margin">
+                    <div class="card bg-gradient-info card-img-holder text-white">
+                      <div class="card-body">
+                        <img src="{{ asset('assets/images/dashboard/circle.svg')}}" class="card-img-absolute" alt="circle-image" />
+                        <h4 class="font-weight-normal mb-3">Total Properties <i class="mdi mdi-bookmark-outline mdi-24px float-right"></i>
+                        </h4>
+                        <h2 class="mb-5">{{ number_format($totalProperties) }}</h2>
+                          <h2 class="mb-5"><h2>
+                          <h2 class="mb-5">
+                               
+                        </h2>
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
 
-              <div class="col-md-3 stretch-card grid-margin">
-                <div class="card bg-gradient-success card-img-holder text-white">
-                  <div class="card-body">
-                    <img src="{{ asset('assets/images/dashboard/circle.svg')}}" class="card-img-absolute" alt="circle-image" />
-                    <h4 class="font-weight-normal mb-3">Total Employees <i class="mdi mdi-diamond mdi-24px float-right"></i>
-                    </h4>
-                    <h2 class="mb-5">{{ $totalEmployees }}</h2>
-                      <h2 class="mb-5"><h2>
-                      <h2 class="mb-5">
-                           
-                    </h2>
+                  <div class="col-md-3 stretch-card grid-margin">
+                    <div class="card bg-gradient-success card-img-holder text-white">
+                      <div class="card-body">
+                        <img src="{{ asset('assets/images/dashboard/circle.svg')}}" class="card-img-absolute" alt="circle-image" />
+                        <h4 class="font-weight-normal mb-3">Total Employees <i class="mdi mdi-diamond mdi-24px float-right"></i>
+                        </h4>
+                        <h2 class="mb-5">{{ number_format($totalEmployees) }}</h2>
+                          <h2 class="mb-5"><h2>
+                          <h2 class="mb-5">
+                               
+                        </h2>
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </div>
 
                 
 
@@ -169,3 +169,4 @@
           <!-- content-wrapper ends -->
           <!-- partial:../../partials/_footer.html -->
 
+<x-adminfooter/>

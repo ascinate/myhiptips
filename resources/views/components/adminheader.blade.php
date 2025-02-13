@@ -18,18 +18,6 @@
 
     <link rel="stylesheet" href="{{ asset('assets/vendors/css/vendor.bundle.base.css') }}">
 
-    <!-- endinject -->
-
-    <!-- Plugin css for this page -->
-
-    <!-- End Plugin css for this page -->
-
-    <!-- inject:css -->
-
-    <!-- endinject -->
-
-    <!-- Layout styles -->
-
     <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
@@ -434,13 +422,13 @@
 
           <a class="navbar-brand brand-logo" href="{{ URL::to('admin/dashboard') }}">
 
-            <img src="{{ asset('images/main_logo.png') }}" alt="logo" />
+            <img src="{{ asset('assets/images/logo-mini.svg') }}" alt="logo" />
 
         </a>
 
         <a class="navbar-brand brand-logo-mini" href="{{ URL::to('dashboard') }}">
 
-            <img src="{{ asset('images/logo.png') }}" alt="logo" />
+            <img src="{{ asset('assets/images/logo-mini.svg') }}" alt="logo" />
 
         </a>
 

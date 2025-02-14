@@ -448,7 +448,7 @@
 
             <li class="nav-item nav-profile">
 
-              <a class="nav-link" id="profileDropdown" href="#" data-bs-toggle="dropdown" aria-expanded="false">
+              <!-- <a class="nav-link" id="profileDropdown" href="#" data-bs-toggle="dropdown" aria-expanded="false">
 
                 <div class="nav-profile-img">
 
@@ -468,17 +468,17 @@
 
                 </div>
 
-              </a>
+              </a> -->
 
             </li>
 
-            <li class="nav-item nav-logout d-none d-lg-block">
+            <!-- <li class="nav-item nav-logout d-none d-lg-block">
 
             <a class="nav-link" href="{{ URL::to('admin/editadmin') }}">
                 <i class="mdi mdi-border-color"></i>
               
             </a>
-
+ -->
 
             </li>
 

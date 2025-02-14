@@ -113,7 +113,8 @@
 
     $('#extable2').DataTable({
 
-        "pageLength": 50
+        "pageLength": 50,
+        "responsive": true,
     });
 
     $('#extable3').DataTable({
@@ -289,7 +290,13 @@ $("body").on("click", "#btnExport", function () {
 
 
 
-<script src="https://cdn.datatables.net/2.1.4/js/dataTables.js"></script>
+<!-- <script src="https://cdn.datatables.net/2.1.4/js/dataTables.js"></script>
+<script src="{{ asset('assets/js/dataTables.responsive.min.js')}}"></script> -->
+
+<script src="http://localhost/hiptipss/assets/js/jquery.dataTables.min.js"></script>
+<script src="http://localhost/hiptipss/assets/js/dataTables.bootstrap5.min.js"></script>
+<script src="http://localhost/hiptipss/assets/js/dataTables.responsive.min.js"></script>
+<script src="http://localhost/hiptipss/assets/js/responsive.bootstrap5.min.js"></script>
 
 <script src="https://cdn.datatables.net/2.1.4/js/dataTables.bootstrap5.js"></script>
 

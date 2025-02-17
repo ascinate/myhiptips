@@ -21,22 +21,25 @@ class HotelController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'hotel_name' => 'required|string|max:255',
-            'phone' => 'required|string|max:15',
-            'contact_name' => 'required|string|max:255',
-            'email' => 'required|email|max:255|unique:hotel_master,email',
-            'password' => 'required|min:6',
-            'additional_email' => 'nullable|email|max:255',
-            'photo' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'street' => 'required|string|max:255',
-            'city' => 'required|string|max:255',
-            'state' => 'required|string|max:255',
-            'zipcode' => 'required|string|max:10',
-            'all_staff' => 'required|in:Y,N',
-            'is_department' => 'required|in:Y,N',
-            'is_commission' => 'required|in:Y,N',
-            'tripadvisor_link' => 'nullable|url|max:500',
-        ]);
+        'hotel_name' => 'required|string|max:255',
+        'phone' => 'required|string|max:15',
+        'contact_name' => 'required|string|max:255',
+        'email' => 'required|email|max:255|unique:hotel_master,email',
+        'password' => 'required|min:6',
+        'additional_email' => 'nullable|email|max:255',
+        'photo' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+        'street' => 'required|string|max:255',
+        'city' => 'required|string|max:255',
+        'state' => 'required|string|max:255',
+        'zipcode' => 'required|string|max:10',
+        'all_staff' => 'required|in:Y,N',
+        'is_department' => 'required|in:Y,N',
+        'is_commission' => 'required|in:Y,N',
+        'tripadvisor_link' => 'nullable|url|max:500',
+    ]);
+
+        // Generate a unique activation code
+        $uniqueCode = substr(str_shuffle('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'), 0, 10);
 
         // Handle file upload
         if ($request->hasFile('photo')) {
@@ -62,7 +65,7 @@ class HotelController extends Controller
             'is_department' => $request->is_department,
             'is_commission' => $request->is_commission,
             'tripadvisor_link' => $request->tripadvisor_link,
-            'active_code' => '',
+            'active_code' => $uniqueCode, // Store the activation code
         ]);
 
         return redirect()->route('admin.hotel')->with('success', 'Hotel added successfully!');

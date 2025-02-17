@@ -1,0 +1,9 @@
+@mixin cover-img {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+}
+@mixin next-button {
+    background: #5fa318;
+    color: #fff;
+}

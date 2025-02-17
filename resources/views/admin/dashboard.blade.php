@@ -126,7 +126,7 @@
                                     <th>Date</th>
                                 </tr>
                             </thead>
-                           <!--  <tbody>
+                            <tbody>
                                 @foreach($tips as $tip)
                                     @php
                                         $hotel = DB::table('hotel_master')->where('id', $tip->hotel)->first();
@@ -157,7 +157,7 @@
                                 @if($tips->isEmpty())
                                     <tr><td colspan="9">No records found!</td></tr>
                                 @endif
-                            </tbody> -->
+                            </tbody>
                         </table>
                   </div>
                 </div>

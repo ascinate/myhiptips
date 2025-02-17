@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Hotel;
+use App\Models\Tip;
 
 class HotelController extends Controller
 {
@@ -134,5 +135,20 @@ class HotelController extends Controller
         $hotel->save();
 
         return redirect()->route('admin.hotel')->with('success', 'Hotel updated successfully.');
+    }
+
+    public function show($id)
+    {
+        // Retrieve hotel details
+        $hotel = Hotel::findOrFail($id);
+
+        // Calculate total earnings for the hotel
+        $totalEarnings = Tip::where('hotel', $id)->sum('tip_amount');
+
+        // Fetch tips history related to this hotel
+        $tips = Tip::where('hotel', $id)->get();
+
+        // Pass data to the Blade template
+        return view('admin.showhotel', compact('hotel', 'totalEarnings', 'tips'));
     }
 }

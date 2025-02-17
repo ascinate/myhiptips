@@ -21,14 +21,10 @@
                 <div class="brand-logo">
                   HIPTIPS CORPORATE PANEL
                 </div>
-
-                @if (session('msg'))
-                    <h5 class="text-center text-dark">{{ session('msg') }}</h5>
-                @endif
                
                 <h6 class="font-weight-light">Sign in to continue.</h6>
-                <form name="frm" action="{{ route('corporate.login') }}" method="post" class="pt-3">
-                @csrf
+                <form name="frm" action="#" method="post" class="pt-3">
+
                 <div class="form-group">
                   <select class="form-select" name="login_type" required>
                       <option value="">--Select Login Type--</option>

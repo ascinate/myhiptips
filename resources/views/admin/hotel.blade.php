@@ -87,7 +87,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    
 
     <!-- JavaScript for Delete Confirmation -->
     <script type="text/javascript">

@@ -6,7 +6,9 @@ use App\Http\Controllers\HotelController;
 use App\Http\Controllers\TippingController;
 use App\Http\Controllers\EmployeesController;
 use App\Http\Controllers\CorporateController;
+use App\Http\Controllers\AdminEmployeeController;
 use App\Http\Controllers\AdminCorporateController;
+use App\Http\Controllers\AdminTipsController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -30,9 +32,10 @@ Route::get('/admin/hotels/delete/{id}', [HotelController::class, 'destroy'])->na
 Route::get('/', [TippingController::class, 'showForm']);
 Route::post('/submit-tip', [TippingController::class, 'submitTip'])->name('submit.tip');
 Route::get('/payment', [TippingController::class, 'showPaymentPage'])->name('admin.pay');
-Route::match(['get', 'post'], '/totaltips/filter', [TippingController::class, 'filterTips'])->name('admin.totaltips');
-
+Route::get('/totaltips/filter', [TippingController::class, 'filterTips'])->name('admin.totaltips');
 Route::get('/totaltips/view', [TippingController::class, 'viewTips'])->name('admin.viewtips');
+
+
 
 
 Route::get('admin/employees',[EmployeesController::class, 'index'])->name('admin.employees');
@@ -53,7 +56,32 @@ Route::get('admin/corporate/edit/{id}', [CorporateController::class, 'edit'])->n
 Route::post('admin/corporate/update_corporate', [CorporateController::class, 'update_corporate'])->name('admin.corporate.update');
 Route::get('admin/corporate/delete/{id}', [CorporateController::class, 'delete']);
 
-
 Route::get('/corporate/logout', [AdminCorporateController::class, 'corporatelogin']);
 Route::view('corporate/login','corporate/login');
 Route::get('/corporate/login', [AdminCorporateController::class, 'showLoginForm'])->name('corporate.login');
+
+
+Route::post('/corporate/login', [AdminCorporateController::class, 'corporate'])->name('corporate.login');
+Route::get('/corporate/dashboard',[AdminCorporateController::class, 'dashboard'])->name('corporate.dashboard');
+Route::get('/corporate/dashboard/editprofile',[AdminCorporateController::class, 'editprofile']);
+
+Route::post('/corporate/dashboard/update_profile', [AdminCorporateController::class, 'updateProfile']);
+Route::get('/corporate/employees', [AdminCorporateController::class, 'employees']);
+
+Route::get('corporate/employees/add', [AdminCorporateController::class, 'add']);
+
+Route::post('corporate/employee/insert', [AdminCorporateController::class, 'insertCorporate']);
+
+Route::get('/employee/login', [AdminEmployeeController::class, 'employee']);
+Route::post('/employee/login', [AdminEmployeeController::class, 'login'])->name('employee.login');
+Route::get('/employee/dashboard',[AdminEmployeeController::class, 'dashboard'])->name('employee.dashboard');
+Route::get('/employee/logout', [AdminEmployeeController::class, 'employeelogin']);
+Route::get('/employee/edit', [AdminEmployeeController::class, 'employeeedit']);
+Route::post('employee/update_profile', [AdminEmployeeController::class, 'updateProfile']);
+Route::get('/employee/tips', [AdminTipsController::class, 'index'])->name('employee.tips');
+
+
+Route::get('/corporate/tips', [TipsCorporateController::class, 'index'])->name('corporate.tips');
+Route::post('/corporate/tips', [TipsCorporateController::class, 'tips'])->name('corporate.tips.search');
+Route::get('/corporate/tips/total', [TipsCorporateController::class, 'total'])->name('corporate.tips.total');
+Route::get('/corporate/dashboardtips', [TipsCorporateController::class, 'dashboardtips'])->name('corporate.dashboardtips');

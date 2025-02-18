@@ -20,49 +20,45 @@
 		                    <div class="card">
 		                        <div class="card-body d-flex align-items-center">
 		                            
-		                            <div class="col-lg-2 mx-2 form-group">
-		                                <label>From</label>
-		                                <input type="date" name="date_from" class="form-control" value="{{ old('date_from') }}" required>
-		                            </div>
-
 		                            <div class="col-lg-2 form-group">
-		                                <label>To</label>
-		                                <input type="date" name="date_to" class="form-control" value="{{ old('date_to') }}" required>
+		                                <label>From</label>
+		                                <input type="date" name="date_from" class="form-control" value="{{ request('date_from') }}" required>
 		                            </div>
-
+		                            <div class="col-lg-2 mx-2 form-group">
+		                                <label>To</label>
+		                                <input type="date" name="date_to" class="form-control" value="{{ request('date_to') }}" required>
+		                            </div>
 		                            <div class="col-lg-2 mx-2 form-group">
 		                                <label>Property</label>
 		                                <select name="hotel_id" class="form-select">
-		                                    <option value="">Select Property</option>
-		                                    @foreach($hotels as $hotel)
-		                                        <option value="{{ $hotel->id }}" {{ old('hotel_id') == $hotel->id ? 'selected' : '' }}>
-		                                            {{ $hotel->hotel_name }}
-		                                        </option>
-		                                    @endforeach
+		                                  <option value="">Select Property</option>
+		                                  @foreach($hotels as $hotel)
+		                                      <option value="{{ $hotel->id }}" {{ request('hotel_id') == $hotel->id ? 'selected' : '' }}>
+		                                          {{ $hotel->hotel_name }}
+		                                      </option>
+		                                  @endforeach
 		                                </select>
 		                            </div>
-
 		                            <div class="col-lg-2 mx-2 form-group">
 		                                <label>Employee</label>
 		                                <select name="employee" class="form-select">
-		                                    <option value="">Select Employee</option>
-		                                    @foreach($employees as $employee)
-		                                        <option value="{{ $employee->id }}" {{ old('employee') == $employee->id ? 'selected' : '' }}>
-		                                            {{ $employee->first_name }} {{ $employee->last_name }}
-		                                        </option>
-		                                    @endforeach
+		                                  <option value="">Select Employee</option>
+		                                  @foreach($employees as $employee)
+		                                      <option value="{{ $employee->id }}" {{ request('employee') == $employee->id ? 'selected' : '' }}>
+		                                          {{ $employee->first_name . ' ' . $employee->last_name }}
+		                                      </option>
+		                                  @endforeach
 		                                </select>
 		                            </div>
-
 		                            <div class="col-lg-2 mx-2 form-group">
 		                                <label>Department</label>
 		                                <select name="department" class="form-select">
-		                                    <option value="">Select Department</option>
-		                                    @foreach(['Housekeeping', 'Front Desk', 'Breakfast', 'Restaurant', 'Maintenance', 'Sales', 'Banquets', 'Valet', 'Concierge', 'Other'] as $dept)
-		                                        <option value="{{ $dept }}" {{ old('department') == $dept ? 'selected' : '' }}>
-		                                            {{ $dept }}
-		                                        </option>
-		                                    @endforeach
+		                                  <option value="">Select Department</option>
+		                                  @foreach(['Housekeeping', 'Front Desk', 'Breakfast', 'Restaurant', 'Maintenance', 'Sales', 'Banquets', 'Valet', 'Concierge', 'Other'] as $dept)
+		                                      <option value="{{ $dept }}" {{ request('department') == $dept ? 'selected' : '' }}>
+		                                          {{ $dept }}
+		                                      </option>
+		                                  @endforeach
 		                                </select>
 		                            </div>
 

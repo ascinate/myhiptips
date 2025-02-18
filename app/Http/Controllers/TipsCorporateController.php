@@ -47,51 +47,75 @@ class TipsCorporateController extends Controller
         return view('corporate.tips_total', compact('employees', 'hotels'));
     }
 
-    public function tips(Request $request)
-    {
-        $corId = Session::get('cor_id'); // Fetching the cor_id from session
+ 
 
-    // Fetch filters from request
-    $dateTo = $request->input('date_to');
-    $dateFrom = $request->input('date_from');
-    $hotelId = $request->input('hotel_id');
-    $employeeId = $request->input('employee');
-    $department = $request->input('department');
 
-    // Building the query based on filters
-    $tipsQuery = DB::table('tips_master')->where('hotel', $corId);
+        public function tips(Request $request)
+        {
+            $corId = Session::get('cor_id'); // Get corporate ID from session
+    
+            // Start building the query
+            $query = DB::table('tips_master')
+                ->join('employee_master', 'employee_master.id', '=', 'tips_master.employee')
+                ->join('hotel_master', 'hotel_master.id', '=', 'tips_master.hotel')
+                ->where('tips_master.hotel', $corId);  // Only select tips for the current corporate ID
+    
+            // Apply filters based on request parameters
+            if ($request->filled('date_from') && $request->filled('date_to')) {
+                $query->whereBetween('tips_master.date_of_tip', [$request->date_from, $request->date_to]);
+            }
+    
+            if ($request->filled('hotel_id')) {
+                $query->where('tips_master.hotel', $request->hotel_id);
+            }
+    
+            if ($request->filled('employee')) {
+                $query->whereIn('tips_master.employee', (array) $request->employee); // Ensure employee is an array
+            }
+    
+            if ($request->filled('department')) {
+                $query->where('tips_master.department', $request->department);
+            }
+    
+            // Select the columns needed from the joined tables
+            $tips = $query->select(
+                'tips_master.*',
+                'employee_master.first_name as employee_first_name',
+                'employee_master.last_name as employee_last_name',
+                'hotel_master.hotel_name'
+            )->get();
+    
+            // Fetch all hotels related to the corporate ID for the filter dropdown
+            $hotels = DB::table('hotel_master')
+                ->where('hotel_master.id', $corId)
+                ->get();
+    
+            // Return the data to the view
+            return view('corporate.tips', compact('tips', 'hotels'))
+                ->with([
+                    'date_from' => $request->date_from,
+                    'date_to' => $request->date_to,
+                    'hotel_id' => $request->hotel_id,
+                    'employee_id' => $request->employee,
+                    'department' => $request->department,
+                ]);
+        }
 
-    if ($dateTo && $dateFrom) {
-        $tipsQuery->whereBetween('date_of_tip', [$dateFrom, $dateTo]);
-    }
-
-    if ($employeeId) {
-        $tipsQuery->whereRaw("FIND_IN_SET(?, employee)", [$employeeId]);
-    }
-
-    if ($department) {
-        $tipsQuery->where('department', $department);
-    }
-
-    $tips = $tipsQuery->orderByDesc('id')->get();
-
-    // Fetch employees and hotels
-    $employees = DB::table('employee_master')->where('hotel_id', $corId)->where('is_archive', 'N')->orderBy('first_name')->get();
-    $hotels = DB::table('hotel_master')->where('id', $corId)->get();
-
-    return view('corporate.tips', compact('tips', 'employees', 'hotels'));
-    }
     
 
-    public function dashboardtips()
-    {
-        $corId = Session::get('cor_id'); // Fetching the cor_id from session
 
-        // Fetching employees related to the hotel (corId)
-        $employees = DB::table('employee_master')
-            ->where('hotel_id', $corId)
-            ->get();
 
-        return response()->json($employees); // Returning employees data as JSON
-    }
+
+
+    // public function dashboardtips()
+    // {
+    //     $corId = Session::get('cor_id'); // Fetching the cor_id from session
+
+    //     // Fetching employees related to the hotel (corId)
+    //     $employees = DB::table('employee_master')
+    //         ->where('hotel_id', $corId)
+    //         ->get();
+
+    //     return response()->json($employees); // Returning employees data as JSON
+    // }
 }

@@ -9,8 +9,14 @@ $from = request('date_from');
 $hotelid = Session::get('cor_id');
 $employeeid = request('employee');
 $department = request('department');
-$hotels = DB::table('hotel_master')->get();
-$employees = DB::table('employee_master')->get();
+$hotels = DB::table('hotel_master')
+        ->where('id', $hotelid)
+        ->get();
+$employees = DB::table('employee_master')
+    ->where('hotel_id', $hotelid)
+    ->where('is_archive', 'N')
+    ->orderBy('first_name')
+    ->get();
 ?>
 
 <x-corporateheader/>
@@ -27,7 +33,7 @@ $employees = DB::table('employee_master')->get();
             </h3>
         </div>
 
-        <form name="frm" action="{{ url('/corporate/tips/total') }}" method="get">
+        <form name="frm" action="{{ url('/corporate/tips/total') }}" method="post">
             @csrf
             <div class="row">
                 <div class="col-lg-12 grid-margin stretch-card">

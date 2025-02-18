@@ -61,15 +61,15 @@
                                     <td>{{ $employee->phone }}</td>
                                     <td>{{ $employee->email }}</td>
                                     <td>
-                                        <a href="#">
+                                        <a href="{{ url('/corporate/employees/view/'.$employee->id) }}">
                                             <i class="fa fa-eye" style="font-size: 24px;"></i>
                                         </a>
                                         &nbsp;
-                                        <a href="#">
+                                        <a href="{{ url('/corporate/employees/edit/' . $employee->id) }}">
                                             <i class="fa fa-pencil" style="font-size: 24px;"></i>
                                         </a>
                                         &nbsp;
-                                        <a href="javascript:void(0);" onclick="archive({{ $employee->id }});">
+                                        <a href="javascript: archive({{ $employee->id }});" >
                                             <i class="fa fa-trash" style="font-size: 24px;"></i>
                                         </a>
                                     </td>
@@ -89,9 +89,10 @@
 <x-corporatefooter/>
 
 <script type="text/javascript">
-    // function archive(id) {
-    //     if (confirm("Are you sure to remove?")) {
-    //         window.location.href = '{{ url('corporate/employees/delete') }}/' + id;
-    //     }
-    // }
+    function archive(corpId) {
+        
+        if (confirm("Are you sure to remove?")) {
+            window.location.href = "{{ url('corporate/employees/delete') }}/" + corpId;
+        }
+    }
 </script>

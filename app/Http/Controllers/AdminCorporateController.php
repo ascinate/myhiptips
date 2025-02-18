@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Log;
 // use App\Models\Admin;
 
 
@@ -157,6 +159,49 @@ class AdminCorporateController extends Controller
         return view('corporate.employees', $data);
     }
 
+   
+    
+    public function viewcorporate($id, Request $request)
+    {
+        if (!Session::has('cor_id')) {
+            return redirect()->route('corporate.login');
+        }
+    
+        // Get total earnings for the employee
+        $totalEarnings = DB::table('tips_master')
+            ->where('employee', 'LIKE', "%{$id}%")
+            ->sum('each_share');
+    
+      
+    
+    
+    
+ 
+    
+        // Query tips with date filter using STR_TO_DATE()
+        $tipsQuery = DB::table('tips_master')
+            ->where('employee', 'LIKE', "%{$id}%");
+    
+        if (!empty($from) && !empty($to)) {
+            $tipsQuery->whereBetween('date_of_tip', [$request->date_from, $request->date_to]);
+        }
+    
+      
+    
+        // Fetch data
+        $tips = $tipsQuery->get();
+    
+        // Debugging: Check retrieved data
+        //dd($tips);  // Or dd($tips->pluck('date_of_tip'));
+    
+        return view('corporate.viewemployee', [
+            'id' => $id,
+            'totalEarnings' => $totalEarnings,
+            'tips' => $tips,
+        ]);
+    }
+    
+
     public function add(){
        
            
@@ -208,6 +253,92 @@ class AdminCorporateController extends Controller
      
         return redirect('/corporate/employees');
     }
+
+    public function editcorporate($id){
+        $employee = DB::table('employee_master')->where('id', $id)->first();
+ 
+        $hotels = DB::table('hotel_master')->get();
+
+        return view('corporate.editemployee', compact('employee', 'hotels'));
+
+    }
+
+ 
+
+
+
+ public function updatecorporate(Request $request)
+    {
+        // Retrieve the employee ID
+        $id = $request->id;
+    
+        // Validate incoming request
+        $request->validate([
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'department' => 'required|string|max:255',
+            'phone' => 'required|string|max:15',
+            'email' => 'required|email|max:255|unique:employee_master,email,' . $id,
+            'password' => 'nullable|min:2', // Password is optional, only hash it if provided
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Photo is optional
+        ]);
+    
+        // Find the employee by ID
+        $employee = DB::table('employee_master')->where('id', $id)->first();
+    
+        if (!$employee) {
+            return redirect()->back()->withErrors(['error' => 'Employee not found']);
+        }
+    
+        // Handle photo upload if a new photo is uploaded
+        if ($request->hasFile('photo')) {
+            // Delete old photo if it exists
+            if ($employee->photo && file_exists(public_path('uploads/' . $employee->photo))) {
+                unlink(public_path('uploads/' . $employee->photo));
+            }
+    
+            // Get the new image and move it to the uploads directory
+            $image = $request->file('photo');
+            $photo = time() . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('uploads'), $photo);
+        } else {
+            // If no new photo, use the existing one
+            $photo = $employee->photo;
+        }
+    
+        // Hash the password if it's provided
+        $password = $request->password;
+    
+        // Update the employee data in the database
+        DB::table('employee_master')->where('id', $id)->update([
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'department' => $request->department,
+            'phone' => $request->phone,
+            'email' => $request->email,
+            'photo' => $photo,
+            'password' => $password,
+           
+        ]);
+    
+        // Set success message in session
+        //$request->session()->flash('msg', 'Employee updated successfully!');
+    
+        // Redirect to employee list page or any other page
+        return redirect('corporate/employees');
+    }
+public function deletecorporate($id)
+{
+  
+  
+
+    DB::table('employee_master')
+    ->where('id', $id)
+    ->delete();
+
+    return redirect('/corporate/employees');
+}
+
 
     public function logout()
     {

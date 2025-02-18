@@ -108,7 +108,7 @@ class TippingController extends Controller
                'date_from' => $request->date_from,
                'date_to' => $request->date_to,
                'hotel_id' => $request->hotel_id,
-               'employee_id' => $request->employee,
+               'employee' => $request->employee,
                'department' => $request->department
            ]);
     }

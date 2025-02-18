@@ -43,7 +43,7 @@
                                 <select name="employee" class="form-select">
                                   <option value="">Select Employee</option>
                                   @foreach($employees as $employee)
-                                      <option value="{{ $employee->id }}" {{ request('employee_id') == $employee->id ? 'selected' : '' }}>
+                                      <option value="{{ $employee->id }}" {{ request('employee') == $employee->id ? 'selected' : '' }}>
                                           {{ $employee->first_name . ' ' . $employee->last_name }}
                                       </option>
                                   @endforeach

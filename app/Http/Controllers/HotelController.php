@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use App\Models\Hotel;
 use App\Models\Tip;
@@ -151,4 +152,21 @@ class HotelController extends Controller
         // Pass data to the Blade template
         return view('admin.showhotel', compact('hotel', 'totalEarnings', 'tips'));
     }
+
+    public function destroy($id)
+    {
+        // Find the hotel by ID
+        $hotel = Hotel::find($id);
+
+        // Check if the hotel exists
+        if (!$hotel) {
+            return redirect()->route('admin.hotel')->with('error', 'Hotel not found.');
+        }
+
+        // Delete the hotel
+        $hotel->delete();
+
+        return redirect()->route('admin.hotel')->with('success', 'Hotel deleted successfully.');
+    }
+
 }

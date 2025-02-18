@@ -9,7 +9,12 @@ use App\Http\Controllers\CorporateController;
 use App\Http\Controllers\AdminEmployeeController;
 use App\Http\Controllers\AdminCorporateController;
 use App\Http\Controllers\AdminTipsController;
+use App\Http\Controllers\TipsCorporateController;
+
+
+
 use App\Http\Controllers\TipController;
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -30,16 +35,19 @@ Route::post('/admin/hotels/update/{id}', [HotelController::class, 'update'])->na
 Route::get('/admin/hotels/delete/{id}', [HotelController::class, 'destroy'])->name('hotels.destroy');
 
 
-Route::get('/', [TippingController::class, 'showForm']);
-Route::post('/submit-tip', [TippingController::class, 'submitTip'])->name('submit.tip');
-Route::get('/payment', [TippingController::class, 'showPaymentPage'])->name('admin.pay');
+// Route::get('/', [TippingController::class, 'showForm']);
+// Route::post('/submit-tip', [TippingController::class, 'submitTip'])->name('submit.tip');
+// Route::get('/payment', [TippingController::class, 'showPaymentPage'])->name('admin.pay');
 Route::get('/tips', [TippingController::class, 'index'])->name('admin.totaltips');
 Route::post('/tips', [TippingController::class, 'search'])->name('tips.search');
 Route::get('/totaltips/view', [TippingController::class, 'viewTips'])->name('admin.viewtips');
 
 
-// Route::get('/tips', [TipController::class, 'index'])->name('tips.index');
-// Route::post('/tips', [TipController::class, 'search'])->name('tips.search');
+Route::get('/', [TipController::class, 'showForm']);
+Route::post('/submit-tip', [TipController::class, 'submitTip'])->name('submit.tip');
+Route::get('/tip-payment', [TipController::class, 'showpay'])->name('admin.pay');
+Route::post('/tip-payment', [TipController::class, 'processPayment'])->name('tip.payment.submit');
+//Route::get('/payment-confirmation', [TipController::class, 'confirmation'])->name('tip.payment.confirmation');
 
 
 Route::get('admin/employees',[EmployeesController::class, 'index'])->name('admin.employees');
@@ -89,3 +97,16 @@ Route::get('/corporate/tips', [TipsCorporateController::class, 'index'])->name('
 Route::post('/corporate/tips', [TipsCorporateController::class, 'tips'])->name('corporate.tips.search');
 Route::get('/corporate/tips/total', [TipsCorporateController::class, 'total'])->name('corporate.tips.total');
 Route::get('/corporate/dashboardtips', [TipsCorporateController::class, 'dashboardtips'])->name('corporate.dashboardtips');
+
+
+Route::any('/corporate/employees/view/{id}', [AdminCorporateController::class, 'viewcorporate'])->name('corporate.viewcorporate');
+Route::get('/corporate/employees/edit/{id}', [AdminCorporateController::class, 'editcorporate']);
+Route::post('/corporate/employees/update_profile_corp', [AdminCorporateController::class, 'updatecorporate'])->name('employees.corpupdate');
+
+Route::get('corporate/employees/delete/{id}', [AdminCorporateController::class, 'deletecorporate']);
+
+
+Route::get('/corporate/tips', [TipsCorporateController::class, 'index'])->name('corporate.tips');
+// Route::get('/corporate/tips', [TipsCorporateController::class, 'indexTypeTwo'])->name('tips.filter');
+Route::any('/corporate/tips/search', [TipsCorporateController::class, 'tips'])->name('corporate.tips.search');
+Route::any('/corporate/tips/total', [TipsCorporateController::class, 'total'])->name('corporate.tips.total');

@@ -127,12 +127,21 @@
                                     <div id="departments-mj" class="show-hide mt-4">
                                         <div class="departments-div w-100">
                                             <div class="sepcila-form2">
-                                                <select name="department" id="sources" class="form-select" placeholder="Select Department">
+                                                  <select name="department" id="sources" class="form-select" placeholder="Select Department">
                                                     <option value="">Select Department</option>
-                                                    @foreach ($departments as $department)
-                                                        <option value="{{ $department }}">{{ $department }}</option>
-                                                    @endforeach
-                                                </select>
+                                                    <option value="Housekeeping">Housekeeping</option>
+                                                    <option value="Front Desk">Front Desk</option>
+                                                    <option value="Breakfast">Breakfast</option>
+                                                    <option value="Restaurant">Restaurant</option>
+                                                    <option value="Maintenance">Maintenance</option>
+                                                    <option value="Sales">Sales</option>
+                                                    <option value="Banquets">Banquets</option>
+                                                    <option value="Valet">Valet</option>
+                                                    <option value="Concierge">Concierge</option>
+                                                    <option value="laundry">Laundry Attendant</option>
+                                                    <option value="facility">Facility Attendant</option>
+                                                    <option value="bellhop">Bellhop</option>
+                                                  </select>
                                             </div>
                                         </div>
                                     </div>
@@ -202,7 +211,7 @@
       </fieldset>
   
     </div>
-  </form>
+</form>
 
   <div class="container">
       <div class="d-flex trums-tx align-items-center justify-content-center mb-5">

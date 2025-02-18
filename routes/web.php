@@ -33,12 +33,13 @@ Route::get('/admin/hotels/delete/{id}', [HotelController::class, 'destroy'])->na
 Route::get('/', [TippingController::class, 'showForm']);
 Route::post('/submit-tip', [TippingController::class, 'submitTip'])->name('submit.tip');
 Route::get('/payment', [TippingController::class, 'showPaymentPage'])->name('admin.pay');
-Route::get('/totaltips/filter', [TippingController::class, 'filterTips'])->name('admin.totaltips');
+Route::get('/tips', [TippingController::class, 'index'])->name('admin.totaltips');
+Route::post('/tips', [TippingController::class, 'search'])->name('tips.search');
 Route::get('/totaltips/view', [TippingController::class, 'viewTips'])->name('admin.viewtips');
 
 
-Route::get('/tips', [TipController::class, 'index'])->name('tips.index');
-Route::post('/tips', [TipController::class, 'search'])->name('tips.search');
+// Route::get('/tips', [TipController::class, 'index'])->name('tips.index');
+// Route::post('/tips', [TipController::class, 'search'])->name('tips.search');
 
 
 Route::get('admin/employees',[EmployeesController::class, 'index'])->name('admin.employees');

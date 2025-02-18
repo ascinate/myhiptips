@@ -70,59 +70,47 @@ class TippingController extends Controller
         return redirect()->route('admin.pay', ['code' => $code]);
     }
 
-    public function filterTips(Request $request)
+    public function index()
     {
-        // echo "hello"; exit();
         $hotels = Hotel::all();
         $employees = Employee::all();
-        
-        // Fetch filter values from request
-        $date_from = $request->input('date_from');
-        $date_to = $request->input('date_to');
-        $hotel_id = $request->input('hotel_id');
-        $employee_id = $request->input('employee');
-        $department = $request->input('department');
-        
-        // Query employee records based on filters
-        $query = Employee::query();
-        
-        if ($department) {
-            $query->where('department', $department);
-        }
-        
-        if ($employee_id) {
-            $query->where('id', $employee_id);
-        }
-        
-        if ($hotel_id) {
-            $query->where('hotel_id', $hotel_id);
-        }
-        
-        $employeesFiltered = $query->get();
-        
-        $tipsSummary = [];
-        
-        foreach ($employeesFiltered as $employee) {
-            $sumQuery = Tip::whereRaw("FIND_IN_SET(?, employee)", [$employee->id]);
-            
-            if ($date_from && $date_to) {
-                $sumQuery->whereBetween('date_of_tip', [$date_from, $date_to]);
-            }
-            
-            $sum = $sumQuery->sum('each_share');
-            
+        return view('admin.totaltips', compact('hotels', 'employees'));
+    }
 
-            if ($sum > 0) {
-                $tipsSummary[] = [
-                    'employee' => $employee->first_name . ' ' . $employee->last_name,
-                    'department' => $employee->department,
-                    'hotel' => optional($employee->hotel)->hotel_name,
-                    'total_earning' => '$' . number_format($sum, 2),
-                ];
-            }
-        }
-        
-        return view('admin.totaltips', compact('hotels', 'employees', 'tipsSummary'));
+    public function search(Request $request)
+    {
+        $query = Employee::query();
+
+    if ($request->filled('date_from') && $request->filled('date_to')) {
+        $query->whereHas('tips', function ($q) use ($request) {
+            $q->whereBetween('date_of_tip', [$request->date_from, $request->date_to]);
+        });
+    }
+
+    if ($request->filled('hotel_id')) {
+        $query->where('hotel_id', $request->hotel_id);
+    }
+
+    if ($request->filled('employee')) {
+        $query->where('id', $request->employee);
+    }
+
+    if ($request->filled('department')) {
+        $query->where('department', $request->department);
+    }
+
+    $employees = $query->get();
+    $hotels = Hotel::all();
+
+    // Pass search values back to the view
+    return view('admin.totaltips', compact('employees', 'hotels'))
+           ->with([
+               'date_from' => $request->date_from,
+               'date_to' => $request->date_to,
+               'hotel_id' => $request->hotel_id,
+               'employee_id' => $request->employee,
+               'department' => $request->department
+           ]);
     }
 
     public function viewTips(Request $request)

@@ -51,7 +51,7 @@
             <div class="collapse" id="manageTips">
                 <ul class="nav flex-column sub-menu">
                     <li class="nav-item"> <a class="nav-link" href="{{ route('admin.viewtips') }}"> View Tips </a></li>
-                    <li class="nav-item"> <a class="nav-link" href="{{ route('tips.index') }}"> View Total Earnings </a></li>
+                    <li class="nav-item"> <a class="nav-link" href="{{ route('admin.totaltips') }}"> View Total Earnings </a></li>
                 </ul>
             </div>
         </li>

@@ -45,7 +45,45 @@
         }
 
 
+table.dataTable.dtr-inline.collapsed>tbody>tr>td.dtr-control:before{
+  content: "+" !important;
+    height: 1em;
+    width: 1em;
+    margin-top: -10px;
+    display: inline-block;
+    color: white;
+    border: .15em solid white;
+    border-radius: 1em;
+    box-shadow: 0 0 .2em #444;
+    box-sizing: content-box;
+    text-align: center;
+    text-indent: 0 !important;
+    line-height: 1em;
+    background-color: #0d6efd;
+/*    position: absolute;*/
+}
 
+.table .py-1 img{
+  margin-left: 0;
+}
+
+table.dataTable.dtr-inline.collapsed>tbody>tr.parent>td.dtr-control:before{
+  content: "-" !important;
+    height: 1em;
+    width: 1em;
+    margin-top: 10px;
+    display: block;
+    color: white;
+    border: .15em solid white;
+    border-radius: 1em;
+    box-shadow: 0 0 .2em #444;
+    box-sizing: content-box;
+    text-align: center;
+    text-indent: 0 !important;
+    line-height: 1em;
+    background-color: #0d6efd;
+    position: absolute;
+}
         table.dataTable tbody tr.child td {
 
   word-break: break-word; word-break: break-all; white-space: normal;

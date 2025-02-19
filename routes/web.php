@@ -12,6 +12,11 @@ use App\Http\Controllers\AdminTipsController;
 use App\Http\Controllers\TipsCorporateController;
 
 
+use App\Http\Controllers\TippsController;
+use App\Http\Controllers\PaymentController;
+
+
+
 
 use App\Http\Controllers\TipController;
 
@@ -43,6 +48,12 @@ Route::post('/tips', [TippingController::class, 'search'])->name('tips.search');
 Route::get('/totaltips/view', [TippingController::class, 'viewTips'])->name('admin.viewtips');
 
 
+
+// Route::get('/tip', [TippsController::class, 'showTippingPage'])->name('tipping.page');
+// Route::post('/tip', [TippsController::class, 'storeTip'])->name('tip.store');
+
+// Route::get('/payment/{id}', [PaymentController::class, 'showPaymentForm'])->name('payment.form');
+// Route::post('/payment', [PaymentController::class, 'processPayment'])->name('payment.process');
 Route::get('/', [TipController::class, 'showForm']);
 Route::post('/submit-tip', [TipController::class, 'submitTip'])->name('submit.tip');
 Route::get('/tip-payment', [TipController::class, 'showpay'])->name('admin.pay');

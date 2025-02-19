@@ -56,83 +56,104 @@ class TipController extends Controller
 
     public function showForm(Request $request)
     {
-        $hotel = Hotel::first();  
+        $hotel = Hotel::first();
 
-    if (!$hotel) {
-        return redirect()->route('home')->with('error', 'Hotel information is missing.');
+
+        if (!$hotel) {
+            return redirect()->route('home')->with('error', 'Hotel information is missing.');
+        }
+
+        $employees = Employee::where('hotel_id', $hotel->id)->get();
+        $departments = Department::where('hotel_id', $hotel->id)->pluck('name');
+
+        return view('admin.tip', compact('hotel', 'employees', 'departments'));
     }
 
-    
-    $employees = Employee::where('hotel_id', $hotel->id)->get();
-    $departments = Department::where('hotel_id', $hotel->id)->pluck('name');
-
-    return view('admin.tip', compact('hotel', 'employees', 'departments'));
-    }
-
-    
-    public function submitTip(Request $request)
+    // Handle Tip Submission
+   public function submitTip(Request $request)
     {
-        
-         $validated = $request->validate([
-        'employee' => 'required_if:mnRadioDefault,employees-ts|array|min:1',
-        'department' => 'required_if:mnRadioDefault,departments-mj|string',
-        'room' => 'required|string',
-        'lname' => 'required|string',
-        'tip' => 'required|numeric',
-        'custom_tip' => 'nullable|numeric|min:3',
-    ]);
+        $validated = $request->validate([
+            'mnRadioDefault' => 'required|string|in:employees-ts,departments-mj',
+            'employee' => 'required_if:mnRadioDefault,employees-ts|array|min:1',
+            'department' => 'required_if:mnRadioDefault,departments-mj|string',
+            'room' => 'required|string',
+            'lname' => 'required|string',
+            'tip' => 'required|numeric|min:1',
+            'custom_tip' => 'nullable|numeric|min:3',
+        ]);
 
-    
-    $hotel_id = 1; 
-    if ($request->has('hotel_id')) {
-        $hotel_id = $request->hotel_id;
+        $hotel_id = $request->hotel_id ?? 1; // Default to 1 if not provided
+
+        // Calculate Final Tip Amount
+        $tip_amount = ($validated['tip'] === 'other') ? $validated['custom_tip'] : $validated['tip'];
+        $admin_commission = $tip_amount * 0.1; // Example: 10% commission
+        $final_amount = $tip_amount - $admin_commission;
+
+        // Prepare Tip Data
+        $tipData = [
+            'hotel' => $hotel_id,
+            'room_number' => $validated['room'],
+            'last_name' => $validated['lname'],
+            'tip_amount' => $tip_amount,
+            'final_amount' => $final_amount,
+            'employee' => isset($validated['employee']) ? implode(',', $validated['employee']) : null,
+            'department' => $validated['department'] ?? null,
+            'tip_type' => $validated['mnRadioDefault'],
+            'admin_commission' => $admin_commission,
+            'each_share' => isset($validated['employee']) ? ($final_amount / count($validated['employee'])) : $final_amount,
+            'date_of_tip' => now(),
+            'status' => 'Y', // Default status
+        ];
+
+        // Save Tip Data
+        $tip = Tip::create($tipData);
+
+
+        // Redirect to Payment Page with Tip Data
+        return redirect()->route('admin.pay', ['tip_id' => $tip->id]);
     }
 
-    
-    $tipData = [
-        'room_number' => $request->room,
-        'last_name' => $request->lname,
-        'tip_amount' => $request->tip === 'other' ? $request->custom_tip : $request->tip,
-        'employee_ids' => $request->employee ? implode(',', $request->employee) : null,
-        'department' => $request->department,
-        'hotel_id' => $hotel_id, 
-    ];
 
-   
-    return redirect()->route('admin.pay');
-    }
 
-    public function showpay(Request $request)
+    // Show Payment Page
+    public function showPay(Request $request)
     {
-        
         $hotel = null;
-        if ($request->has('code') && $request->code != '') {
+        $tips = 0.00; // Default tip value
+
+        if ($request->has('code') && !empty($request->code)) {
             $hotel = Hotel::where('active_code', $request->code)->first();
         }
 
-        return view('admin.pay', compact('hotel', 'request'));
+        
+        $tip = null;
+        if ($request->has('tip_id')) {
+            $tip = Tip::find($request->tip_id);
+            $tips = $tip ? $tip->tip_amount : 0.00; // Get tip amount from DB if available
+        }
+
+        return view('admin.pay', compact('hotel', 'request', 'tip', 'tips'));
     }
 
+    // Process Payment
     public function processPayment(Request $request)
     {
-       
         $validated = $request->validate([
-            'code' => 'required',
-            'mnRadioDefault' => 'nullable',
+            'code' => 'required|string',
+            'mnRadioDefault' => 'nullable|string',
             'employee' => 'nullable|array',
             'room' => 'nullable|string',
             'department' => 'nullable|string',
             'lname' => 'nullable|string',
-            'tip' => 'nullable|string',
-            'other' => 'nullable|string',
-            'custom_tip' => 'nullable|numeric',
+            'tip' => 'nullable|numeric|min:1',
+            'custom_tip' => 'nullable|numeric|min:3',
             'item_name' => 'nullable|string',
             'email' => 'nullable|email',
             'currency' => 'nullable|string',
         ]);
 
-
-        return redirect()->route('tip.payment.confirmation');
+        // Redirect to payment success page
+        return redirect()->route('admin.succes')->with('success', 'Payment processed successfully!');
     }
 
     

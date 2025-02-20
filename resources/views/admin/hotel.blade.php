@@ -64,7 +64,10 @@
                                                     </a>
                                                 </td>
                                                 <td>
-                                                    <a href="{{ url('/?code='.$hotel->active_code) }}" target="_blank">
+                                                    <a href="{{ url('/?code='.$hotel->active_code) }}" 
+                                                    target="_blank" 
+                                                    id="hotel-link-{{ $hotel->id }}" 
+                                                    onclick="storeHotelIdInSession({{ $hotel->id }})">
                                                         {{ url('/?code='.$hotel->active_code) }}
                                                     </a>
                                                 </td>
@@ -87,6 +90,30 @@
                 </div>
             </div>
         </div>
+
+        <script>
+        function storeHotelIdInSession(hotelId) {
+            // Store the hotel ID in session (use AJAX for this)
+            // You will need a route in your web.php to handle storing the session value
+
+            fetch('{{ route('storeHotelSession') }}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'  // CSRF token for security
+                },
+                body: JSON.stringify({ hotel_id: hotelId })
+            })
+            .then(response => response.json())
+            .then(data => {
+                
+                window.open('{{ url('/?code='.$hotel->active_code) }}', '_blank');
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+    </script>
     
 
     <!-- JavaScript for Delete Confirmation -->
@@ -97,4 +124,5 @@
             }
         }
     </script>
+
 <x-adminfooter/>    

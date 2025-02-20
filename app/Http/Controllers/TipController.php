@@ -55,11 +55,22 @@ class TipController extends Controller
     }
 
 
+    public function storeHotelSession(Request $request)
+    {
+        
+        Session::put('hotel_id', $request->hotel_id);
+
+        return response()->json(['success' => true]);
+    }
+
     public function showForm(Request $request)
     {
         $hotel = Hotel::first();
+        $hotel_id=Session::get('hotel_id');
 
+     
 
+        
         if (!$hotel) {
             return redirect()->route('home')->with('error', 'Hotel information is missing.');
         }
@@ -71,7 +82,7 @@ class TipController extends Controller
     }
 
     // Handle Tip Submission
-   public function submitTip(Request $request)
+    public function submitTip(Request $request)
     {
         $validated = $request->validate([
             'mnRadioDefault' => 'required|string|in:employees-ts,departments-mj',
@@ -80,11 +91,13 @@ class TipController extends Controller
             'room' => 'required|string',
             'lname' => 'required|string',
             'tip' => 'required|numeric|min:1',
-            'custom_tip' => 'nullable|numeric|min:3',
+            //'custom_tip' => 'nullable|numeric|min:3',
         ]);
 
+       
         $hotel_id = $request->hotel_id ?? 1; // Default to 1 if not provided
-
+        $hotel_id=Session::get('hotel_id');
+       
         // Calculate Final Tip Amount
         $tip_amount = ($validated['tip'] === 'other') ? $validated['custom_tip'] : $validated['tip'];
         $admin_commission = $tip_amount * 0.1; // Example: 10% commission
@@ -105,6 +118,7 @@ class TipController extends Controller
             'date_of_tip' => now(),
             'status' => 'Y', // Default status
         ];
+        //dd($tipData);
 
         Session::get('hotel_photo');
         Session::put('tip_data', $tipData);
@@ -139,7 +153,28 @@ class TipController extends Controller
             $tips = $tip ? $tip->tip_amount : 0.00; // Get tip amount from DB if available
         }
 
-        return view('admin.pay', compact('hotel', 'request', 'tip', 'tips'));
+
+        $data = [
+            'displayItems' => [
+                [
+                    'label' => "Subtotal",
+                    'type' => "SUBTOTAL",
+                    'price' => "0.00",
+                ],
+                [
+                    'label' => "Tax",
+                    'type' => "TAX",
+                    'price' => "0.00",
+                ]
+            ],
+            'countryCode' => "US",
+            'currencyCode' => "USD",
+            'totalPriceStatus' => "FINAL",
+            'totalPrice' => $tips,
+            'totalPriceLabel' => "Total"
+        ];
+
+        return view('admin.pay', compact('hotel', 'request', 'tip', 'tips', 'data'));
     }
 
     // Process Payment

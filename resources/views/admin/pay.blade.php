@@ -60,7 +60,7 @@
             <header class="float-start w-100">
                 <!-- Mobile View -->
                 <div class="bg-fdiv01 d-block d-md-none">
-                    <img src="{{ asset('uploads/' . ($hotel->photo ?? 'default.png')) }}" alt=""/>
+                    <img src="{{ session('hotel_photo') }}" alt=""/>
                 </div>
 
                 <div class="container">
@@ -69,13 +69,19 @@
                             
                             <!-- Desktop View -->
                             <div class="bg-fdiv01 d-none d-md-block">
-                                <img src="{{ asset('uploads/' . ($hotel->photo ?? 'default.png')) }}" alt=""/>
+                                @php
+
+                                Session::get('hotel_photo');
+                                $tipData = Session::get('tip_data');
+
+                                @endphp
+                                <img src="{{ session('hotel_photo') }}" alt=""/>
                             </div>
 
                             <div class="row texr07 align-items-lg-center">
                                 <div class="col-3 d-lg-grid justify-content-end">
                                     <div class="img-top">
-                                        <h6>{{ $hotel->hotel_name ?? 'Hotel Name' }}</h6>
+                                        <h6>{{ $tipData['last_name'] }}</h6>
                                     </div>
                                 </div>
 
@@ -84,7 +90,7 @@
                                         <div class="col-8">
                                             <div class="let-herd">
                                                 <h1 id="dept">
-                                                    {{ request()->post('department', 'Employees') }}
+                                                    {{ $tipData['employee'] }}
                                                 </h1>
                                             </div>
                                         </div>
@@ -105,8 +111,8 @@
                                             <img src="{{ asset('core/images/2815428.png') }}" alt="yuh"/>
                                         </figure>
                                         <h5> 
-                                            <span id="dl"> {{ request()->post('lname', 'Guest') }}</span>
-                                            <span class="d-block" id="rl"> Room No: {{ request()->post('room', 'N/A') }} </span>
+                                            <span id="dl"> {{ request()->post('lname', $tipData['last_name']) }}</span>
+                                            <span class="d-block" id="rl"> Room No: {{ request()->post('room', $tipData['room_number']) }} </span>
                                         </h5>
                                     </div>
 

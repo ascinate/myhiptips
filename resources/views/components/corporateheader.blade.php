@@ -496,7 +496,7 @@
 
             <li class="nav-item nav-logout d-none d-lg-block">
 
-              <a class="nav-link" href="{{ URL::to('/corporate/logout') }}">
+              <a class="nav-link" href="{{ url('/corporate/logout') }}">
                 <i class="mdi mdi-power"></i>
               </a>
 

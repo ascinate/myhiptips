@@ -33,7 +33,13 @@
                     <div class="col-lg-9 mx-auto d-block">
                         <div class="top-headr d-inline-block w-100">
                             <div class="bg-fdiv01 d-none d-md-block">
-                                <img src="{{ asset('uploads/' . $hotel->photo) }}" alt="{{ $hotel->hotel_name }}"/>
+                                @php
+
+                                session(['hotel_photo' => asset('uploads/' . $hotel->photo)]);
+
+
+                                @endphp
+                                <img src="{{ session('hotel_photo') }}" alt="{{ $hotel->hotel_name }}"/>
                             </div>
                             <div class="row texr07 align-items-center">
                                 <div class="col-8 col-lg-9">
@@ -42,7 +48,14 @@
                                 </div>
                                 <div class="col-4 col-lg-3 d-lg-grid justify-content-end">
                                     <div class="img-top">
-                                        <h6>{{ $hotel->hotel_name }}</h6>
+                                       @php
+
+                                        session(['hotel_name' => $hotel->hotel_name]);
+                                        Session::put('hotel_name');
+
+
+                                        @endphp
+                                        <h6>{{ session('hotel_name') }}</h6>
                                     </div>
                                 </div>
                             </div>

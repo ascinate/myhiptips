@@ -78,43 +78,43 @@
     <script src="{{ asset('assets/js/hoverable-collapse.js') }}"></script>
     <script src="{{ asset('assets/js/misc.js') }}"></script>
     <script type="text/javascript">
-    //   $(document).ready(function(){
+      $(document).ready(function(){
 
-    //     $("#switch").click(function(){
+        $("#switch").click(function(){
 
-    //       $("#login").hide();
-    //       $("#forgotpass").show();
+          $("#login").hide();
+          $("#forgotpass").show();
 
-    //     });
+        });
 
-    //     $("#cancel").click(function(){
+        $("#cancel").click(function(){
 
-    //       $("#login").show();
-    //       $("#forgotpass").hide();
-    //       location.reload();
+          $("#login").show();
+          $("#forgotpass").hide();
+          location.reload();
 
-    //     });
+        });
 
-    //     $("#btnpass").click(function(){
+        $("#btnpass").click(function(){
 
-    //       var email = $("#email").val();
+          var email = $("#email").val();
 
-    //       $.ajax({
+          $.ajax({
 
-    //         url: "corporate/login/forgot_pass",
-    //         data: { email:email },
-    //         type: "POST",
-    //         success: function(data)
-    //         {
-    //             $("#txt").html(data);
-    //             $("#email").val('');
-    //         } 
+            url: "{{ url('corporate/login/forgot_pass') }}",
+            data: { email:email },
+            type: "POST",
+            success: function(data)
+            {
+                $("#txt").html(data);
+                $("#email").val('');
+            } 
 
-    //       });
+          });
 
-    //     });
+        });
 
-    //   });
+      });
     </script>
 </body>
 </html>

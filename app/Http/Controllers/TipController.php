@@ -7,6 +7,7 @@ use App\Models\Employee;
 use App\Models\Hotel;
 use App\Models\Department;
 use App\Models\Tip;
+use Illuminate\Support\Facades\Session;
 
 class TipController extends Controller
 {
@@ -105,6 +106,11 @@ class TipController extends Controller
             'status' => 'Y', // Default status
         ];
 
+        Session::get('hotel_photo');
+        Session::put('tip_data', $tipData);
+
+       
+
         // Save Tip Data
         $tip = Tip::create($tipData);
 
@@ -118,6 +124,7 @@ class TipController extends Controller
     // Show Payment Page
     public function showPay(Request $request)
     {
+        $tipData = Session::get('tip_data');
         $hotel = null;
         $tips = 0.00; // Default tip value
 

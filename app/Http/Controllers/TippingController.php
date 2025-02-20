@@ -72,8 +72,8 @@ class TippingController extends Controller
 
     public function index()
     {
-        $hotels = Hotel::all();
-        $employees = Employee::all();
+        $hotels = Hotel::where('is_active', 'Y')->orderBy('hotel_name')->get();
+        $employees = Employee::where('is_archive', 'N')->orderBy('first_name')->get();
         return view('admin.totaltips', compact('hotels', 'employees'));
     }
 
@@ -138,8 +138,8 @@ class TippingController extends Controller
         }
 
         $tips = $tipsQuery->get();
-        $hotels = Hotel::all();
-        $employees = Employee::all();
+        $hotels = Hotel::where('is_active', 'Y')->orderBy('hotel_name')->get();
+        $employees = Employee::where('is_archive', 'N')->orderBy('first_name')->get();
 
         return view('admin.viewtips', compact('tips', 'hotels', 'employees'));
     }

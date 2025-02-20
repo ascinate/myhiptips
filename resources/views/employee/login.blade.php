@@ -17,7 +17,7 @@
             <div class="content-wrapper d-flex align-items-center auth">
                 <div class="row flex-grow">
                     <div class="col-lg-4 mx-auto">
-                        <div class="auth-form-light text-center p-5">
+                        <div class="auth-form-light text-center p-5" id="login">
                             <div class="brand-logo">
                             HIPTIPS EMPLOYEE PANEL
                             </div>
@@ -31,11 +31,7 @@
                             <form name="frm" action="{{ route('employee.login') }}" method="POST" class="pt-3">
                                 @csrf
                                 
-                                @if (session('msg'))
-                                    <div class="alert alert-danger">
-                                        {{ session('msg') }}
-                                    </div>
-                                @endif
+                        
                                 <div class="form-group">
                                     <input type="email" name="email" class="form-control form-control-lg" placeholder="Email" required>
                                 </div>
@@ -55,6 +51,22 @@
                                 </div>
                             </form>
                         </div>
+                        <div class="auth-form-light text-center p-5" id="forgotpass" style="display: none;">
+                        <div class="brand-logo"> HIPTIPS EMPLOYEE PANEL </div>
+                        @if (session('msg'))
+                        <h5 class="text-center ">{{ session('msg') }}</h5>
+                            @endif
+                        <h6 class="font-weight-light" id="txt">Forgot Password.</h6>
+                      
+                        <div class="form-group">
+                            <input type="email" name="email" class="form-control form-control-lg" id="email" placeholder="Email" required>
+                        </div>
+                        <div class="mt-3">
+                            <button type="button" id="btnpass" class="btn btn-block btn-gradient-primary btn-lg font-weight-medium auth-form-btn">SUBMIT</button>
+                            <button type="button" id="cancel" class="btn btn-block btn-gradient-primary btn-lg font-weight-medium auth-form-btn">CANCEL</button>
+                        </div>
+                       
+                    </div>
                     </div>
                 </div>
             </div>
@@ -68,5 +80,43 @@
     <script src="{{ asset('assets/js/off-canvas.js') }}"></script>
     <script src="{{ asset('assets/js/hoverable-collapse.js') }}"></script>
     <script src="{{ asset('assets/js/misc.js') }}"></script>
+    <script type="text/javascript">
+      $(document).ready(function(){
+
+        $("#switch").click(function(){
+
+          $("#login").hide();
+          $("#forgotpass").show();
+
+        });
+
+        $("#cancel").click(function(){
+
+          $("#login").show();
+          $("#forgotpass").hide();
+
+        });
+
+        $("#btnpass").click(function(){
+
+          var email = $("#email").val();
+
+          $.ajax({
+
+            url: "{{ url('employee/login/forgot_pass') }}",
+            data: { email:email },
+            type: "POST",
+            success: function(data)
+            {
+                $("#txt").html(data);
+                $("#email").val('');
+            } 
+
+          });
+
+        });
+
+      });
+    </script>
 </body>
 </html>

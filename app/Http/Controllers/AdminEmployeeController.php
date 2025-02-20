@@ -54,6 +54,113 @@ class AdminEmployeeController extends Controller
         
     }
 
+    public function empforgotpass(Request $request)
+    {
+        $email = $request->input('email');
+
+        // Querying using Laravel's Query Builder
+        $user = DB::table('employee_master')->where('email', $email)->first();
+
+        if ($user) {
+            $to = $email;
+            $subject = "Forgot Password - myhiptips.com";
+
+            // Create the email message content (HTML format)
+            $htmlMessage = '
+            <html>
+            <body>
+                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td>
+                      <table width="700" border="0" cellspacing="0" cellpadding="0" align="center">
+                       <tr>
+                        <td>
+                          <table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#FFFFFF">
+                            <tr>
+                              <td>
+                                  <tr>
+                                    <td>
+                                      <figure style="width: 100%; margin: auto; text-align: center;">
+                                        <img style="width:25%; margin: auto;" src="' . asset('style/images/logo-mailer.jpg') . '" alt="logo"/>
+                                      </figure>
+                                    </td>
+                                  </tr>
+
+                                  <tr>
+                                    <td>
+                                      <table border="0" cellpadding="0" cellspacing="0" class="image_block block-3" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;" width="100%">
+                                        <tbody><tr>
+                                          <td class="pad" style="padding-left:10px;padding-right:10px;">
+                                          <div style="font-family: AvantGarde Md BT;">
+                                          <div class="" style="font-size: 12px; font-family: AvantGarde Md BT;  mso-line-height-alt: 14.3px; color: #262626; line-height: 1.2;">
+                                          <p style="margin: 0; font-size: 30px; font-weight: 800 !important; text-align: center; mso-line-height-alt: 16.8px;">
+                                            <span style="display: block;">Welcome to Hiptips</span>
+                                          </p>
+
+                                          </div>
+                                          </div>
+                                          </td>
+                                          </tr>
+                                      </tbody>
+                                      </table>
+                                    </td>
+                                  </tr>
+
+                                  <tr>
+                                    <td>
+                                      <h5 style="text-align: center; font-family:Arial, Helvetica, sans-serif;  font-weight: 500; font-size: 22px; margin-bottom: 10px;">
+                                          Thank you for contacting us. You will find your login credentials as below.
+                                      </h5>
+                                    </td>
+                                  </tr>
+
+                                  <tr>
+                                    <td>
+                                        <p style="text-align: center;">
+                                          <span style="font-weight: 500; font-size: 20px;">Email:</span> 
+                                          <span style="font-weight: 400; font-size: 18px; padding-left:10px;">' . $email . '</span> 
+                                        </p>
+                                        <p style="text-align: center;">
+                                          <span style="font-weight: 500; font-size: 20px;">Password:</span> 
+                                          <span style="font-weight: 400; font-size: 18px; padding-left:10px;">' . $user->password . '</span> 
+                                        </p>
+                                    </td>
+                                  </tr>
+
+                                  <tr>
+                                    <td>
+                                      <span style="display: block; float: left; margin-top:20px; line-height: 25px; font-family:Arial, Helvetica, sans-serif; font-weight: 600; font-size: 16px; color: #b27bff ;">	Regards,
+                                        <b style="display: block;"> MyHiptips team </b> </span>
+                                    </td>
+                                  </tr>
+
+                            </td>
+                            </tr>
+                          </table>
+                        </td>
+
+                       </tr>
+                      </table>
+                    </td>
+                  </tr>
+                </table>
+            </body>
+            </html>';
+
+            // Sending email using Laravel's Mail facade without Mailgun
+            Mail::send([], [], function ($mailMessage) use ($to, $subject, $htmlMessage) {
+                $mailMessage->to($to)
+                            ->subject($subject)
+                            ->setBody($htmlMessage, 'text/html');
+                $mailMessage->from('support@myhiptips.com'); // Update with your email address
+            });
+
+            return response()->json(['message' => 'Password sent successfully to your email.'], 200);
+        } else {
+            return response()->json(['message' => 'Wrong email address.'], 404);
+        }
+    }
+
         public function tips(Request $request)
         {
             $corId = Session::get('hotel_id');

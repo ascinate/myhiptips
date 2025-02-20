@@ -522,7 +522,7 @@ table.dataTable.dtr-inline.collapsed>tbody>tr.parent>td.dtr-control:before{
 
             <li class="nav-item nav-logout d-none d-lg-block">
 
-              <a class="nav-link" href="{{ URL::to('admin/logout') }}">
+              <a class="nav-link" href="{{ url('admin/logout') }}">
                 <i class="mdi mdi-power"></i>
               </a>
 

@@ -25,10 +25,12 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+
 Route::view('admin/login','admin/login');
 Route::get('/admin/login', [AdminController::class, 'showLoginForm'])->name('admin.login');
 Route::post('/admin/login', [AdminController::class, 'login']);
 Route::get('admin/dashboard',[AdminController::class, 'dashboard'])->name('admin.dashboard');
+Route::get('admin/logout', [AdminController::class, 'adminlogout']);
 
 
 Route::get('/hotel', [HotelController::class, 'index'])->name('admin.hotel');
@@ -63,6 +65,7 @@ Route::post('/tip-payment', [TipController::class, 'processPayment'])->name('tip
 
 Route::get('admin/employees',[EmployeesController::class, 'index'])->name('admin.employees');
 
+
 Route::get('employees/add', [EmployeesController::class, 'add'])->name('admin.employees.add');
 Route::post('employees/insert', [EmployeesController::class, 'insertEmployee'])->name('admin.employees.insert');
 Route::get('/admin/employees/view/{id}', [EmployeesController::class, 'viewEmployee']);
@@ -82,6 +85,7 @@ Route::get('admin/corporate/delete/{id}', [CorporateController::class, 'delete']
 Route::get('/corporate/logout', [AdminCorporateController::class, 'corporatelogin']);
 Route::view('corporate/login','corporate/login');
 Route::get('/corporate/login', [AdminCorporateController::class, 'showLoginForm'])->name('corporate.login');
+Route::post('corporate/login/forgot_pass', [AdminCorporateController::class, 'forgotpass']);
 
 
 Route::post('/corporate/login', [AdminCorporateController::class, 'corporate'])->name('corporate.login');
@@ -97,6 +101,7 @@ Route::post('corporate/employee/insert', [AdminCorporateController::class, 'inse
 
 Route::get('/employee/login', [AdminEmployeeController::class, 'employee']);
 Route::post('/employee/login', [AdminEmployeeController::class, 'login'])->name('employee.login');
+Route::post('/employee/login/forgot_pass', [AdminEmployeeController::class, 'empforgotpass']);
 Route::get('/employee/dashboard',[AdminEmployeeController::class, 'dashboard'])->name('employee.dashboard');
 Route::get('/employee/logout', [AdminEmployeeController::class, 'employeelogin']);
 Route::get('/employee/edit', [AdminEmployeeController::class, 'employeeedit']);

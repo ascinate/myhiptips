@@ -14,6 +14,10 @@ class AdminController extends Controller
     {
         return view('admin.login'); 
     }
+    public function adminlogout()
+    {
+        return redirect('admin/login');
+    }
 
     public function login(Request $request)
     {

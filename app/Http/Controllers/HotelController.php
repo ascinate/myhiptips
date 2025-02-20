@@ -11,7 +11,7 @@ class HotelController extends Controller
 {
     public function index()
     {
-        $hotels = Hotel::all();
+        $hotels = Hotel::where('is_active', 'Y')->orderBy('hotel_name')->get();
         return view('admin.hotel', ['hotels' => $hotels]);
     }
 

@@ -57,6 +57,7 @@ Route::get('/totaltips/view', [TippingController::class, 'viewTips'])->name('adm
 // Route::get('/payment/{id}', [PaymentController::class, 'showPaymentForm'])->name('payment.form');
 // Route::post('/payment', [PaymentController::class, 'processPayment'])->name('payment.process');
 Route::get('/', [TipController::class, 'showForm']);
+Route::post('/store-hotel-session', [TipController::class, 'storeHotelSession'])->name('storeHotelSession');
 Route::post('/submit-tip', [TipController::class, 'submitTip'])->name('submit.tip');
 Route::get('/tip-payment', [TipController::class, 'showpay'])->name('admin.pay');
 Route::post('/tip-payment', [TipController::class, 'processPayment'])->name('tip.payment.submit');

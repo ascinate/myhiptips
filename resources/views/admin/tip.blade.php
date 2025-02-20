@@ -50,12 +50,15 @@
                                     <div class="img-top">
                                        @php
 
-                                        session(['hotel_name' => $hotel->hotel_name]);
-                                        Session::put('hotel_name');
+                                       $hotel_id=Session::get('hotel_id');
+
+                                       $hotelName = DB::table('hotel_master')
+                                                    ->where('id', $hotel_id)  
+                                                    ->value('hotel_name');
 
 
                                         @endphp
-                                        <h6>{{ session('hotel_name') }}</h6>
+                                        <h6>{{ $hotelName }}</h6>
                                     </div>
                                 </div>
                             </div>
@@ -201,7 +204,7 @@
 
                                     <div id="custome-divam" class="custome-am">
                                         <div class="form-floating crm-grop1">
-                                            <input type="text" name="custom_tip" class="form-control" id="cumtext"/>
+                                            <input type="text" name="tip" class="form-control" id="cumtext"/>
                                             <label for="cumtext">Enter minimum $3</label>
                                             <span class="inp-icon">
                                                 <img src="{{ asset('core/images/wallets.svg') }}" alt="wallet"/>
@@ -233,7 +236,7 @@
       </div>
   </div>
 
-<!-- <script type="text/javascript">
+<script type="text/javascript">
   $(document).ready(function(){
 
     $("input[id^='check0']").click(function(){
@@ -341,7 +344,9 @@
 
 
 
-<style>
+
+
+<!-- <style>
 
   label#tip-error{
     font-family: "Sora",sans-serif;

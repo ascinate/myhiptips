@@ -6,12 +6,20 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use App\Models\Hotel;
 use App\Models\Tip;
+use Illuminate\Support\Facades\Session;
 
 class HotelController extends Controller
 {
     public function index()
     {
         $hotels = Hotel::where('is_active', 'Y')->orderBy('hotel_name')->get();
+
+        // Check if there is at least one active hotel
+        if ($hotels->isNotEmpty()) {
+            Session::put('hotel_name', $hotels->first()->hotel_name);
+        }
+
+        Session::get('hotel_name');
         return view('admin.hotel', ['hotels' => $hotels]);
     }
 
